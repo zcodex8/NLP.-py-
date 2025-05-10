@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Football Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b3d91;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #chat-box {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff10;
+            padding: 20px;
+            border-radius: 10px;
+            height: 400px;
+            overflow-y: scroll;
+            text-align: left;
+        }
+        .user {
+            color: #ffd700;
+            margin: 5px 0;
+        }
+        .bot {
+            color: #00ffcc;
+            margin: 5px 0;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 60%;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background: #ffd700;
+            color: #0b3d91;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Football Chatbot ⚽</h1>
+
+<div id="chat-box"></div>
+
+<br>
+<input type="text" id="user-input" placeholder="Ask me about football...">
+<button onclick="sendMessage()">Send</button>
+
+<script>
+    function appendMessage(sender, message) {
+        const chatBox = document.getElementById('chat-box');
+        const newMessage = document.createElement('div');
+        newMessage.className = sender;
+        newMessage.textContent = (sender === 'user' ? 'You: ' : 'Bot: ') + message;
+        chatBox.appendChild(newMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+        const userInput = document.getElementById('user-input');
+        const message = userInput.value.trim();
+        if (message === "") return;
+        
+        appendMessage('user', message);
+        userInput.value = "";
+
+        fetch('/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'message=' + encodeURIComponent(message)
+        })
+        .then(response => response.json())
+        .then(data => {
+            appendMessage('bot', data.reply);
+        });
+    }
+</script>
+
+</body>
+</html>

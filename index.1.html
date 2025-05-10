@@ -1,0 +1,59 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Unsplash Image Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f4f4;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            padding: 8px;
+            margin: 5px;
+            width: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Random Unsplash Image Generator</h1>
+    <p>Enter width and height to get a random image!</p>
+
+    <form method="POST">
+        <input type="number" name="width" placeholder="Width" min="100" required>
+        <input type="number" name="height" placeholder="Height" min="100" required>
+        <button type="submit">Get Image</button>
+    </form>
+
+    {% if image_url %}
+        <h2>Here’s your image:</h2>
+        <img src="{{ image_url }}" alt="Random Unsplash Image">
+    {% endif %}
+
+</body>
+</html>
